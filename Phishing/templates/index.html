@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulación de CTS - CESCE Perú</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #1C4CDE;
+            font-family: Arial, sans-serif;
+            position: relative;
+        }
+        
+        .contenedor {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 100px;
+            height: 100px;
+            background-color: #1C4CDE;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 1;
+        }
+        
+        h1 {
+            color: #1C4CDE;
+            text-align: center;
+            margin-top: 0;
+        }
+        
+        .mensaje {
+            text-align: center;
+            margin: 10px 0 20px 0;
+            color: #666;
+        }
+        
+        form {
+            margin-top: 30px;
+        }
+        
+        .campo {
+            margin-bottom: 15px;
+        }
+        
+        .campo label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .campo input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        button {
+            background-color: #1C4CDE;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            margin: 20px auto 0;
+        }
+        
+        button:hover {
+            background-color: #1557B0;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <img src="{{ url_for('static', filename='Logo.png') }}" alt="logo" style="width: 200%; height: 100%; object-fit: contain;">
+    </div>
+    
+    <div class="contenedor">
+        <!-- Mensajes de error/éxito -->
+        {% if errores %}
+        <div style="color: red; margin-bottom: 15px;">
+            {% for error in errores %}
+            <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if mensaje_exito %}
+        <div style="color: green; margin-bottom: 15px;">
+            {{ mensaje_exito }}
+        </div>
+        {% endif %}
+
+        <div class="titulo-mensaje">
+            <h1>Simulación de CTS - CESCE Perú</h1>
+            <p class="mensaje">Te ayudamos a que tomes decisiones informadas</p>
+        </div>
+
+        <form action="/procesar" method="post" onsubmit="mostrarMensaje(event)">
+            <div class="campo">
+                <label>Nombres:</label>
+                <input type="text" name="nombres" value="{{ datos.nombres if datos }}" required>
+            </div>
+            
+            <div class="campo">
+                <label>Apellido Paterno:</label>
+                <input type="text" name="apellido_paterno" value="{{ datos.apellido_paterno if datos }}" required>
+            </div>
+            
+            <div class="campo">
+                <label>Apellido Materno:</label>
+                <input type="text" name="apellido_materno" value="{{ datos.apellido_materno if datos }}" required>
+            </div>
+            
+            <div class="campo">
+                <label>DNI:</label>
+                <input type="text" name="dni" value="{{ datos.dni if datos }}" required>
+            </div>
+            
+            <div class="campo">
+                <label>Sueldo promedio mensual:</label>
+                <input type="number" name="sueldo" value="{{ datos.sueldo if datos }}" required>
+            </div>
+
+            <div class="campo">
+                <label>Correo electrónico:</label>
+                <input type="email" name="email" value="{{ datos.email if datos }}" required>
+            </div>
+            
+            <button type="submit">Generar Simulación</button>
+        </form>
+    </div>
+
+    <script>
+        function mostrarMensaje(event) {
+            event.preventDefault();
+            
+            // Mostrar mensaje de confirmación
+            alert("Tu solicitud de simulación ha sido recibida. En breve te estaremos enviando la simulación de tu CTS a tu correo electrónico y los pasos para retirarlo.\n\nRecursos Humanos Cesce Perú a su servicio.");
+            
+            // Enviar el formulario después de 1 segundo
+            setTimeout(() => {
+                event.target.submit();
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
